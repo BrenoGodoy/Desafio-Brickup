@@ -4,12 +4,14 @@ import { useAppSelector } from "@/redux/store";
 
 export default function Home() {
 
-  const text = useAppSelector((state) => state.taskReducer.value.name);
+  const text = useAppSelector((state) => state.taskReducer);
 
   return (
     <main>
       <Form />
-      <h1>text: {text} </h1>
+      <h1>text: {text.map((e) => {
+        return <div key={e.id}>{e.name}</div>
+      })} </h1>
     </main>
   )
 }

@@ -1,35 +1,29 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-type InitialState = {
-  value: TasksState;
+type Task = {
+  id: number;
+  name: string;
+  status: string;
 }
 
-type TasksState = {
-  name: string,
-  status: string
-}
+type TasksState = Task[];
 
-const initialState = {
-  value: {
-    name: "",
-    status: "",
-  } as TasksState
-} as InitialState
+const initialState: TasksState = []
 
 export const tasks = createSlice({
   name: "task",
   initialState,
   reducers: {
-    del: () => {
-      return initialState;
+    del: (state, action: PayloadAction<number>) => {
+      return state.filter((task) => task.id !== action.payload);
     },
     add: (state, action: PayloadAction<string>) => {
-      return {
-        value: {
-          name: action.payload,
-          status: "Ok"
-        }
-      }
+      const newTask: Task = {
+        id: state.length + 1, // Simplesmente incrementando o id por enquanto
+        name: action.payload,
+        status: "Ok",
+      };
+      return [...state, newTask];
     }
   }
 });
