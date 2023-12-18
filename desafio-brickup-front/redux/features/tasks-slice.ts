@@ -14,10 +14,15 @@ export const tasks = createSlice({
   name: "task",
   initialState,
   reducers: {
+    start: () => {},
+    startSucess: (state, action: PayloadAction<TasksState>) => {
+      return action.payload;
+    },
     del: (state, action: PayloadAction<number>) => {
       return state.filter((task) => task.id !== action.payload);
     },
-    add: (state, action: PayloadAction<string>) => {
+    add: () => {},
+    addSucess: (state, action: PayloadAction<string>) => {
       const newTask: Task = {
         id: state.length + 1,
         name: action.payload,
@@ -28,5 +33,5 @@ export const tasks = createSlice({
   }
 });
 
-export const { add, del } = tasks.actions;
+export const { add, start, del, addSucess, startSucess } = tasks.actions;
 export default tasks.reducer;
