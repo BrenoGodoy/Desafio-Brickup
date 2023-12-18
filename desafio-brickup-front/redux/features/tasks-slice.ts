@@ -19,7 +19,7 @@ export const tasks = createSlice({
     },
     add: (state, action: PayloadAction<string>) => {
       const newTask: Task = {
-        id: state.length + 1, // Simplesmente incrementando o id por enquanto
+        id: state.length + 1,
         name: action.payload,
         status: "Ok",
       };
