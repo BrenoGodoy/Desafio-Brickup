@@ -21,7 +21,7 @@ export const tasks = createSlice({
     del: (state, action: PayloadAction<number>) => {
       return state.filter((task) => task.id !== action.payload);
     },
-    add: () => {},
+    add: (state, action: PayloadAction<Partial <Task>>) => {},
     addSucess: (state, action: PayloadAction<string>) => {
       const newTask: Task = {
         id: state.length + 1,

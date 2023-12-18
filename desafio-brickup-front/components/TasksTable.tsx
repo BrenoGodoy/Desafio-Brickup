@@ -5,20 +5,16 @@ import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { add, start } from "@/redux/features/tasks-slice";
 import { useAppSelector } from "@/redux/store";
+import Link from 'next/link';
 
 export default function TasksTable() {
-  const [text, setText] = useState("");
   const dispatch = useDispatch<AppDispatch>();
 
   const tasks = useAppSelector((state) => state.taskReducer);
 
   useEffect(() => {
     dispatch(start());
-  }, [dispatch, text]);
-
-  const onClickTest = () => {
-    dispatch(add());
-  };
+  }, [dispatch]);
 
   return (
     <div className="max-w-screen-md mx-auto p-4">
@@ -27,6 +23,7 @@ export default function TasksTable() {
           <tr>
             <th className="border-b py-2">Name</th>
             <th className="border-b py-2">Status</th>
+            <th className="border-b py-2"></th>
           </tr>
         </thead>
         <tbody>
@@ -34,19 +31,28 @@ export default function TasksTable() {
             <tr key={task.id} className="border-b">
               <td className="py-2">{task.name}</td>
               <td className="py-2">{task.status}</td>
+              <td className="py-2">
+              <button
+                type="button"
+                className="bg-primary-400 text-black px-4 py-2 rounded"
+              >
+                Concluir
+              </button>
+              </td>
             </tr>
           ))}
         </tbody>
         <tfoot>
           <tr>
             <td className="py-2">
-              <button
-                type="button"
-                onClick={onClickTest}
-                className="bg-primary-500 text-black px-4 py-2 rounded"
-              >
-                Concluir
-              </button>
+              <Link href="/add">
+                <button
+                  type="button"
+                  className="bg-primary-400 text-black px-4 py-2 rounded"
+                >
+                  Nova Tarefa
+                </button>
+              </Link>
             </td>
           </tr>
         </tfoot>

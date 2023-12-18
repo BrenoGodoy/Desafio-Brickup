@@ -16,10 +16,12 @@ export function* watchStart() {
   yield takeEvery(start.type, fetchStart)
 }
 
-function* fetchAdd() {
+function* fetchAdd(action: ReturnType<typeof add>) {
+  const { payload } = action;
   const response: Response = yield call(fetch, 'https://api.chucknorris.io/jokes/random');
   const data: JokeType = yield call([response, 'json']);
 
+  console.log(payload);
   yield put(addSucess(data.value));
 }
 
