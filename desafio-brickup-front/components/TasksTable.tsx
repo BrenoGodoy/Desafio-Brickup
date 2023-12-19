@@ -24,6 +24,7 @@ export default function TasksTable() {
             <th className="border-b py-2">Name</th>
             <th className="border-b py-2">Status</th>
             <th className="border-b py-2"></th>
+            <th className="border-b py-2"></th>
           </tr>
         </thead>
         <tbody>
@@ -37,6 +38,12 @@ export default function TasksTable() {
                 className="bg-primary-400 text-black px-4 py-2 rounded"
               >
                 Concluir
+              </button>
+              <button
+                type="button"
+                className="bg-primary-400 text-black px-4 py-2 rounded"
+              >
+                Excluir
               </button>
               </td>
             </tr>
