@@ -7,7 +7,7 @@ import { useRouter, useSearchParams, usePathname } from "next/navigation";
 
 export default function EditTask() {
   const [description, setDescription] = useState('');
-  const [status, setStatus] = useState('pendente');
+  const [status, setStatus] = useState('Pendente');
   const dispatch = useDispatch<AppDispatch>();
   const navRouter = useRouter();
   const params = useSearchParams();
@@ -51,8 +51,8 @@ export default function EditTask() {
             onChange={(e) => setStatus(e.target.value)}
             className="mt-1 p-2 border border-gray-300 rounded-md w-full"
           >
-            <option value="pendente">Pendente</option>
-            <option value="finalizada">Finalizada</option>
+            <option value="Pendente">Pendente</option>
+            <option value="Finalizada">Finalizada</option>
           </select>
         </div>
         <div className="mt-4">

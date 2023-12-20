@@ -3,7 +3,7 @@
 import { AppDispatch } from "@/redux/store";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { add, del, start } from "@/redux/features/tasks-slice";
+import { edit, del, start, Task } from "@/redux/features/tasks-slice";
 import { useAppSelector } from "@/redux/store";
 import Link from 'next/link';
 
@@ -16,7 +16,16 @@ export default function TasksTable() {
     dispatch(start());
   }, [dispatch]);
 
-  const handleClick = (id: number) => {
+  const handleComplete = (task: Task) => {
+    const newTask = {
+      id: task.id,
+      description: task.description,
+      status: 'Finalizada'
+    }
+    dispatch(edit(newTask));
+  }
+
+  const handleDelete = (id: number) => {
     dispatch(del({id}));
   }
 
@@ -25,7 +34,7 @@ export default function TasksTable() {
       <table className="min-w-full bg-white shadow-md rounded my-6">
         <thead>
           <tr>
-            <th className="border-b py-2">Name</th>
+            <th className="border-b py-2">Descrição</th>
             <th className="border-b py-2">Status</th>
             <th className="border-b py-2"></th>
             <th className="border-b py-2"></th>
@@ -39,7 +48,9 @@ export default function TasksTable() {
               <td className="py-2">
                 <button
                   type="button"
-                  className="bg-primary-400 text-black px-4 py-2 rounded"
+                  className="bg-primary-400 text-black px-4 py-2 rounded disabled:bg-primary-100"
+                  onClick={(e) => handleComplete({id: task.id, description: task.description, status: task.status})}
+                  disabled={task.status === 'Finalizada'}
                 >
                   Concluir
                 </button>
@@ -48,7 +59,7 @@ export default function TasksTable() {
                 <button
                   type="button"
                   className="bg-primary-400 text-black px-4 py-2 rounded"
-                  onClick={(e) => handleClick(task.id)}
+                  onClick={(e) => handleDelete(task.id)}
                 >
                   Excluir
                 </button>
