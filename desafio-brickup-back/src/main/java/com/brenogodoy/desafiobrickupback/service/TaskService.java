@@ -27,7 +27,9 @@ public class TaskService {
   }
 
   public List<Task> update(Task task) {
-    taskRepository.save(task);
+    if (task.getId() != null && taskRepository.existsById(task.getId())) {
+      taskRepository.save(task);
+    };
 
     return list();
   }
