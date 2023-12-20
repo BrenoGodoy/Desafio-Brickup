@@ -3,7 +3,7 @@ import taskReducer from "./features/tasks-slice"
 import { TypedUseSelectorHook, useSelector } from "react-redux";
 import createSagaMiddleware from 'redux-saga'
 import { all } from 'redux-saga/effects';
-import { watchAdd, watchStart } from "./sagas/sagas";
+import { watchAdd, watchStart, watchEdit, watchDel } from "./sagas/sagas";
 
 const sagaMiddleware = createSagaMiddleware()
 
@@ -18,6 +18,8 @@ export function* rootSaga() {
   yield all([
     watchAdd(),
     watchStart(),
+    watchEdit(),
+    watchDel()
     // Adicione outras sagas conforme necessário
   ]);
 }

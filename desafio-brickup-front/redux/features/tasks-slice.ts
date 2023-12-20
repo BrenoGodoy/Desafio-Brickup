@@ -18,9 +18,6 @@ export const tasks = createSlice({
     startSucess: (state, action: PayloadAction<TasksState>) => {
       return action.payload;
     },
-    del: (state, action: PayloadAction<number>) => {
-      return state.filter((task) => task.id !== action.payload);
-    },
     add: (state, action: PayloadAction<Partial <Task>>) => {},
     addSucess: (state, action: PayloadAction<TasksState>) => {
       return action.payload;
@@ -28,9 +25,13 @@ export const tasks = createSlice({
     edit: (state, action: PayloadAction<Task>) => {},
     editSucess: (state, action: PayloadAction<TasksState>) => {
       return action.payload;
+    },
+    del: (state, action: PayloadAction<Partial <Task>>) => {},
+    delSucess: (state, action: PayloadAction<TasksState>) => {
+      return action.payload;
     }
   }
 });
 
-export const { add, start, del, addSucess, startSucess, edit, editSucess } = tasks.actions;
+export const { add, start, del, delSucess, addSucess, startSucess, edit, editSucess } = tasks.actions;
 export default tasks.reducer;

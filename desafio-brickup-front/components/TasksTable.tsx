@@ -3,7 +3,7 @@
 import { AppDispatch } from "@/redux/store";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { add, start } from "@/redux/features/tasks-slice";
+import { add, del, start } from "@/redux/features/tasks-slice";
 import { useAppSelector } from "@/redux/store";
 import Link from 'next/link';
 
@@ -15,6 +15,10 @@ export default function TasksTable() {
   useEffect(() => {
     dispatch(start());
   }, [dispatch]);
+
+  const handleClick = (id: number) => {
+    dispatch(del({id}));
+  }
 
   return (
     <div className="max-w-screen-md mx-auto p-4">
@@ -44,12 +48,13 @@ export default function TasksTable() {
                 <button
                   type="button"
                   className="bg-primary-400 text-black px-4 py-2 rounded"
+                  onClick={(e) => handleClick(task.id)}
                 >
                   Excluir
                 </button>
               </td>
               <td>
-              <Link href="/edit/[id]" as={`/edit/${task.id}`}>
+              <Link href="/edit" as={`/edit?id=${task.id}`}>
                 <button
                   type="button"
                   className="bg-primary-400 text-black px-4 py-2 rounded"

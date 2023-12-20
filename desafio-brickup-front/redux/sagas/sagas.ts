@@ -1,5 +1,6 @@
+import { Console } from 'console';
 import { takeEvery, call, put } from 'redux-saga/effects'
-import { add, addSucess, startSucess, start, edit, editSucess } from '../features/tasks-slice'
+import { add, addSucess, startSucess, start, edit, editSucess, del, delSucess } from '../features/tasks-slice'
 
 type TaskType = {
   id: number;
@@ -13,6 +14,10 @@ export function* watchAdd() {
 
 export function* watchEdit() {
   yield takeEvery(edit.type, fetchEdit)
+}
+
+export function* watchDel() {
+  yield takeEvery(del.type, fetchDel)
 }
 
 export function* watchStart() {
@@ -54,6 +59,20 @@ function* fetchEdit(action: ReturnType<typeof edit>) {
 
   console.log(payload);
   yield put(editSucess(data));
+}
+
+function* fetchDel(action: ReturnType<typeof edit>) {
+  const { payload } = action;
+  const response: Response = yield call(fetch, `http://localhost:8080/tasks/${payload.id}`, {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+  const data: TaskType[] = yield call([response, 'json']);
+
+  console.log(payload);
+  yield put(delSucess(data));
 }
 
 function* fetchStart() {

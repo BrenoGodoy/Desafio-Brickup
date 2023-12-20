@@ -3,21 +3,22 @@ import { useState} from "react";
 import { edit } from "@/redux/features/tasks-slice";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "@/redux/store";
-import { useRouter as navegationRouter } from "next/navigation";
-import { useRouter } from 'next/router';
+import { useRouter, useSearchParams, usePathname } from "next/navigation";
 
 export default function EditTask() {
   const [description, setDescription] = useState('');
   const [status, setStatus] = useState('pendente');
   const dispatch = useDispatch<AppDispatch>();
-  const navRouter = navegationRouter();
-  const router = useRouter();
-  const { id } = router.query;
+  const navRouter = useRouter();
+  const params = useSearchParams();
 
   const handleSubmit = (e: { preventDefault: () => void; }) => {
     e.preventDefault();
     
-    dispatch(edit({id: parseInt(id as string), description, status}));
+    const idString = `${params}`
+    const [, value] = idString.split("=");
+
+    dispatch(edit({id: parseInt(value), description, status}));
 
     navRouter.push('/');
   };

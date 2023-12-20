@@ -13,9 +13,6 @@ export default function AddTask() {
 
   const handleSubmit = (e: { preventDefault: () => void; }) => {
     e.preventDefault();
-    // Lógica para lidar com o envio do formulário
-    console.log('Nome:', name);
-    console.log('Status:', status);
     
     dispatch(add({description, status}));
 
