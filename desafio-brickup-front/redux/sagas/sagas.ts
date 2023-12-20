@@ -1,11 +1,10 @@
 import { takeEvery, call, put } from 'redux-saga/effects'
 import { add, addSucess, startSucess, start } from '../features/tasks-slice'
 
-type JokeType = {
-  icon_url:string;
-  id:string; 
-  url:string; 
-  value:string;
+type TaskType = {
+  id: number;
+  description: string;
+  status: string
 }
 
 export function* watchAdd() {
@@ -18,28 +17,16 @@ export function* watchStart() {
 
 function* fetchAdd(action: ReturnType<typeof add>) {
   const { payload } = action;
-  const response: Response = yield call(fetch, 'https://api.chucknorris.io/jokes/random');
-  const data: JokeType = yield call([response, 'json']);
+  const response: Response = yield call(fetch, 'http://localhost:8080/tasks');
+  const data: TaskType = yield call([response, 'json']);
 
   console.log(payload);
-  yield put(addSucess(data.value));
+  yield put(addSucess(data.description));
 }
 
 function* fetchStart() {
-  // const response: Response = yield call(fetch, 'https://api.chucknorris.io/jokes/random');
-  // const data: JokeType = yield call([response, 'json']);
-
-  const data = [{
-    id: 1,
-    name: 'teste',
-    status: 'teste'    
-  },
-  {
-    id: 2,
-    name: 'teste',
-    status: 'teste'    
-  },
-]
+  const response: Response = yield call(fetch, 'http://localhost:8080/tasks');
+  const data: TaskType[] = yield call([response, 'json']);
 
   yield put(startSucess(data));
 }

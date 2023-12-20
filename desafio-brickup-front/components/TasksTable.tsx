@@ -30,7 +30,7 @@ export default function TasksTable() {
         <tbody>
           {tasks.map((task) => (
             <tr key={task.id} className="border-b">
-              <td className="py-2">{task.name}</td>
+              <td className="py-2">{task.description}</td>
               <td className="py-2">{task.status}</td>
               <td className="py-2">
               <button

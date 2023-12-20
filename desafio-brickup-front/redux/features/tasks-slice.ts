@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 type Task = {
   id: number;
-  name: string;
+  description: string;
   status: string;
 }
 
@@ -25,7 +25,7 @@ export const tasks = createSlice({
     addSucess: (state, action: PayloadAction<string>) => {
       const newTask: Task = {
         id: state.length + 1,
-        name: action.payload,
+        description: action.payload,
         status: "Ok",
       };
       return [...state, newTask];
