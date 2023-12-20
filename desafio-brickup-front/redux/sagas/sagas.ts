@@ -17,11 +17,20 @@ export function* watchStart() {
 
 function* fetchAdd(action: ReturnType<typeof add>) {
   const { payload } = action;
-  const response: Response = yield call(fetch, 'http://localhost:8080/tasks');
-  const data: TaskType = yield call([response, 'json']);
+  const response: Response = yield call(fetch, 'http://localhost:8080/tasks', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      description: payload.description,
+      status: payload.status,
+    }),
+  });
+  const data: TaskType[] = yield call([response, 'json']);
 
   console.log(payload);
-  yield put(addSucess(data.description));
+  yield put(addSucess(data));
 }
 
 function* fetchStart() {

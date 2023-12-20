@@ -6,7 +6,7 @@ import { AppDispatch } from "@/redux/store";
 import { useRouter } from "next/navigation";
 
 export default function AddTask() {
-  const [name, setName] = useState('');
+  const [description, setDescription] = useState('');
   const [status, setStatus] = useState('pendente');
   const dispatch = useDispatch<AppDispatch>();
   const router = useRouter();
@@ -17,14 +17,14 @@ export default function AddTask() {
     console.log('Nome:', name);
     console.log('Status:', status);
     
-    dispatch(add({name, status}));
+    dispatch(add({description, status}));
 
     router.push('/');
   };
 
   return (
     <div className="max-w-md mx-auto mt-8 p-6 bg-white rounded shadow-md">
-      <h1 className="text-2xl font-semibold mb-4">Seu Formulário</h1>
+      <h1 className="text-2xl font-semibold mb-4">Adicionar Tarefa</h1>
       <form onSubmit={handleSubmit}>
         <div className="mb-4">
           <label htmlFor="name" className="block text-sm font-medium text-gray-600">
@@ -34,8 +34,8 @@ export default function AddTask() {
             type="text"
             id="name"
             name="name"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
             className="mt-1 p-2 border border-gray-300 rounded-md w-full"
           />
         </div>

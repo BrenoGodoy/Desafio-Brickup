@@ -22,13 +22,8 @@ export const tasks = createSlice({
       return state.filter((task) => task.id !== action.payload);
     },
     add: (state, action: PayloadAction<Partial <Task>>) => {},
-    addSucess: (state, action: PayloadAction<string>) => {
-      const newTask: Task = {
-        id: state.length + 1,
-        description: action.payload,
-        status: "Ok",
-      };
-      return [...state, newTask];
+    addSucess: (state, action: PayloadAction<TasksState>) => {
+      return action.payload;
     }
   }
 });
