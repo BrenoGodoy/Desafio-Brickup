@@ -24,9 +24,13 @@ export const tasks = createSlice({
     add: (state, action: PayloadAction<Partial <Task>>) => {},
     addSucess: (state, action: PayloadAction<TasksState>) => {
       return action.payload;
+    },
+    edit: (state, action: PayloadAction<Task>) => {},
+    editSucess: (state, action: PayloadAction<TasksState>) => {
+      return action.payload;
     }
   }
 });
 
-export const { add, start, del, addSucess, startSucess } = tasks.actions;
+export const { add, start, del, addSucess, startSucess, edit, editSucess } = tasks.actions;
 export default tasks.reducer;

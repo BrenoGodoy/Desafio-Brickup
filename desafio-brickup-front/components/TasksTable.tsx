@@ -33,18 +33,30 @@ export default function TasksTable() {
               <td className="py-2">{task.description}</td>
               <td className="py-2">{task.status}</td>
               <td className="py-2">
-              <button
-                type="button"
-                className="bg-primary-400 text-black px-4 py-2 rounded"
-              >
-                Concluir
-              </button>
-              <button
-                type="button"
-                className="bg-primary-400 text-black px-4 py-2 rounded"
-              >
-                Excluir
-              </button>
+                <button
+                  type="button"
+                  className="bg-primary-400 text-black px-4 py-2 rounded"
+                >
+                  Concluir
+                </button>
+              </td>
+              <td>
+                <button
+                  type="button"
+                  className="bg-primary-400 text-black px-4 py-2 rounded"
+                >
+                  Excluir
+                </button>
+              </td>
+              <td>
+              <Link href="/edit/[id]" as={`/edit/${task.id}`}>
+                <button
+                  type="button"
+                  className="bg-primary-400 text-black px-4 py-2 rounded"
+                >
+                  Editar
+                </button>
+              </Link>
               </td>
             </tr>
           ))}

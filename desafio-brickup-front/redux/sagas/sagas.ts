@@ -1,5 +1,5 @@
 import { takeEvery, call, put } from 'redux-saga/effects'
-import { add, addSucess, startSucess, start } from '../features/tasks-slice'
+import { add, addSucess, startSucess, start, edit, editSucess } from '../features/tasks-slice'
 
 type TaskType = {
   id: number;
@@ -9,6 +9,10 @@ type TaskType = {
 
 export function* watchAdd() {
   yield takeEvery(add.type, fetchAdd)
+}
+
+export function* watchEdit() {
+  yield takeEvery(edit.type, fetchEdit)
 }
 
 export function* watchStart() {
@@ -31,6 +35,25 @@ function* fetchAdd(action: ReturnType<typeof add>) {
 
   console.log(payload);
   yield put(addSucess(data));
+}
+
+function* fetchEdit(action: ReturnType<typeof edit>) {
+  const { payload } = action;
+  const response: Response = yield call(fetch, 'http://localhost:8080/tasks', {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      id: payload.id,
+      description: payload.description,
+      status: payload.status,
+    }),
+  });
+  const data: TaskType[] = yield call([response, 'json']);
+
+  console.log(payload);
+  yield put(editSucess(data));
 }
 
 function* fetchStart() {
