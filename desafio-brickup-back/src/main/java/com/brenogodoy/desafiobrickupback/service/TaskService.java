@@ -2,7 +2,9 @@ package com.brenogodoy.desafiobrickupback.service;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -58,6 +60,15 @@ public class TaskService {
     taskRepository.deleteById(id);;
     
     return list();
+  }
+
+  public byte[] downloadImageFromSystem(Long id) throws IOException {
+    Optional<Task> fileData = taskRepository.findById(id);
+    String file = fileData.get().getImagePath();
+    
+    byte[] images = Files.readAllBytes(new File(file).toPath());
+
+    return images;
   }
 
 }

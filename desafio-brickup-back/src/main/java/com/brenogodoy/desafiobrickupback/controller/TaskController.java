@@ -1,5 +1,6 @@
 package com.brenogodoy.desafiobrickupback.controller;
 
+import java.io.IOException;
 import java.util.List;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -39,6 +40,13 @@ public class TaskController {
     return taskService.list();
   }
 
+  @GetMapping("{id}")
+  byte[] downloadImage(@PathVariable Long id) throws IOException {
+   byte[] image = taskService.downloadImageFromSystem(id);
+
+   return image;
+  }
+
   @PutMapping
   List<Task> update(@RequestBody Task task) {
     return taskService.update(task);
@@ -48,5 +56,4 @@ public class TaskController {
   List<Task> delete(@PathVariable Long id) {
     return taskService.delete(id);
   }
-
 }
