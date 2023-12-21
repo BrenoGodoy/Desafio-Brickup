@@ -6,17 +6,20 @@ import { useDispatch } from "react-redux";
 import { edit, del, start, Task } from "@/redux/features/tasks-slice";
 import { useAppSelector } from "@/redux/store";
 import Link from 'next/link';
+import axios from "axios";
 
 export default function TasksTable() {
   const dispatch = useDispatch<AppDispatch>();
 
-  const tasks = useAppSelector((state) => state.taskReducer);
+  const [tasks, setTasks] = useState<Task[]>([]);
 
   useEffect(() => {
-    dispatch(start());
-  }, [dispatch]);
+    axios.get('http://localhost:8080/tasks')
+      .then(response => setTasks(response.data))
+      .catch(error => console.error('Erro ao obter tarefas:', error));
+  }, []);
 
-  const handleComplete = (task: Task) => {
+  const handleComplete = (task: Partial<Task>) => {
     const newTask = {
       id: task.id,
       description: task.description,

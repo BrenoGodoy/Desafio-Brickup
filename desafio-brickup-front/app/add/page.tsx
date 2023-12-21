@@ -8,13 +8,20 @@ import { useRouter } from "next/navigation";
 export default function AddTask() {
   const [description, setDescription] = useState('');
   const [status, setStatus] = useState('Pendente');
+  const [image, setImage] = useState<File | null | undefined>(null);
+
   const dispatch = useDispatch<AppDispatch>();
   const router = useRouter();
+
+  const uploadToClient = (event: React.ChangeEvent<HTMLInputElement>) => {
+      const file = event.target.files && event.target.files[0];
+      setImage(file);
+  };
 
   const handleSubmit = (e: { preventDefault: () => void; }) => {
     e.preventDefault();
     
-    dispatch(add({description, status}));
+    dispatch(add({description, status, image}));
 
     router.push('/');
   };
@@ -50,6 +57,9 @@ export default function AddTask() {
             <option value="Pendente">Pendente</option>
             <option value="Finalizada">Finalizada</option>
           </select>
+        </div>
+        <div>
+          <input type="file" name="myImage" onChange={uploadToClient} />
         </div>
         <div className="mt-4">
           <button

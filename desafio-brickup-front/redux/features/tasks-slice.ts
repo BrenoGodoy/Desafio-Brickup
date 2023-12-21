@@ -4,6 +4,7 @@ export type Task = {
   id: number;
   description: string;
   status: string;
+  image: File | null | undefined;
 }
 
 type TasksState = Task[];
@@ -22,7 +23,7 @@ export const tasks = createSlice({
     addSucess: (state, action: PayloadAction<TasksState>) => {
       return action.payload;
     },
-    edit: (state, action: PayloadAction<Task>) => {},
+    edit: (state, action: PayloadAction< Partial <Task>>) => {},
     editSucess: (state, action: PayloadAction<TasksState>) => {
       return action.payload;
     },

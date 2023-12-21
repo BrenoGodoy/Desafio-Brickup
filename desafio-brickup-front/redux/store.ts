@@ -11,7 +11,8 @@ export const store = configureStore({
   reducer: {
     taskReducer,
   },
-  middleware: (getDefaultMiddleware) => getDefaultMiddleware({thunk: false}).concat(sagaMiddleware),
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware({thunk: false, serializableCheck: false
+}).concat(sagaMiddleware),
 });
 
 export function* rootSaga() {

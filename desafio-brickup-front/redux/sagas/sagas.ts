@@ -1,11 +1,12 @@
-import { Console } from 'console';
+import axios from 'axios';
 import { takeEvery, call, put } from 'redux-saga/effects'
-import { add, addSucess, startSucess, start, edit, editSucess, del, delSucess } from '../features/tasks-slice'
+import { add, addSucess, startSucess, start, edit, editSucess, del, delSucess, Task } from '../features/tasks-slice'
 
 type TaskType = {
   id: number;
   description: string;
-  status: string
+  status: string;
+  image: string
 }
 
 export function* watchAdd() {
@@ -26,17 +27,18 @@ export function* watchStart() {
 
 function* fetchAdd(action: ReturnType<typeof add>) {
   const { payload } = action;
-  const response: Response = yield call(fetch, 'http://localhost:8080/tasks', {
+  let formData = new FormData();
+  formData.append('description', payload.description!);
+  formData.append('status', payload.status!);
+  formData.append('imagePath', payload.image!);
+
+  const response: Response = yield call(axios.post, 'http://localhost:8080/tasks', formData, {
     method: 'POST',
     headers: {
-      'Content-Type': 'application/json',
+      'Content-Type': 'multipart/form-data',
     },
-    body: JSON.stringify({
-      description: payload.description,
-      status: payload.status,
-    }),
   });
-  const data: TaskType[] = yield call([response, 'json']);
+  const data: Task[] = yield call([response, 'json']);
 
   console.log(payload);
   yield put(addSucess(data));
@@ -55,7 +57,7 @@ function* fetchEdit(action: ReturnType<typeof edit>) {
       status: payload.status,
     }),
   });
-  const data: TaskType[] = yield call([response, 'json']);
+  const data: Task[] = yield call([response, 'json']);
 
   console.log(payload);
   yield put(editSucess(data));
@@ -69,7 +71,7 @@ function* fetchDel(action: ReturnType<typeof edit>) {
       'Content-Type': 'application/json',
     },
   });
-  const data: TaskType[] = yield call([response, 'json']);
+  const data: Task[] = yield call([response, 'json']);
 
   console.log(payload);
   yield put(delSucess(data));
@@ -77,7 +79,7 @@ function* fetchDel(action: ReturnType<typeof edit>) {
 
 function* fetchStart() {
   const response: Response = yield call(fetch, 'http://localhost:8080/tasks');
-  const data: TaskType[] = yield call([response, 'json']);
+  const data: Task[] = yield call([response, 'json']);
 
   yield put(startSucess(data));
 }
