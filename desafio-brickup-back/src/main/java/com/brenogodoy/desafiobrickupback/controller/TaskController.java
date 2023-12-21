@@ -11,7 +11,9 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.brenogodoy.desafiobrickupback.controller.type.TaskBody;
 import com.brenogodoy.desafiobrickupback.entity.Task;
 import com.brenogodoy.desafiobrickupback.service.TaskService;
 
@@ -27,8 +29,9 @@ public class TaskController {
   }
   
   @PostMapping
-  List<Task> create(@RequestBody Task task) {
-    return taskService.create(task);
+  List<Task> create(TaskBody task) {
+    MultipartFile file = task.getImagePath();
+    return taskService.create(task, file);
   }
 
   @GetMapping
