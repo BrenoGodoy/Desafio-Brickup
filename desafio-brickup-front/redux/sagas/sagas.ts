@@ -1,4 +1,4 @@
-import axios, { AxiosResponse } from 'axios';
+import axios from 'axios';
 import { takeEvery, call, put } from 'redux-saga/effects'
 import { add, addSucess, startSucess, start, edit, editSucess, del, delSucess, Task } from '../features/tasks-slice'
 
@@ -32,16 +32,14 @@ function* fetchAdd(action: ReturnType<typeof add>) {
   formData.append('status', payload.status!);
   formData.append('imagePath', payload.image!);
 
-  const response: AxiosResponse<Task[]> = yield call(axios.post, 'http://localhost:8080/tasks', formData, {
+  const response: Response = yield call(axios.post, 'http://localhost:8080/tasks', formData, {
     method: 'POST',
     headers: {
       'Content-Type': 'multipart/form-data',
     },
   });
+  const data: Task[] = yield call([response, 'json']);
 
-  const data: Task[] = response.data;
-
-  console.log(data);
   console.log(payload);
   yield put(addSucess(data));
 }
@@ -59,10 +57,8 @@ function* fetchEdit(action: ReturnType<typeof edit>) {
       status: payload.status,
     }),
   });
-  
   const data: Task[] = yield call([response, 'json']);
 
-  console.log(data);
   console.log(payload);
   yield put(editSucess(data));
 }

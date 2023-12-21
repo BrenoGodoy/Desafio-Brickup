@@ -1,21 +1,23 @@
 "use client";
 
 import { AppDispatch } from "@/redux/store";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { edit, del, start, Task } from "@/redux/features/tasks-slice";
 import { useAppSelector } from "@/redux/store";
 import Link from 'next/link';
+import axios from "axios";
 
 export default function TasksTable() {
   const dispatch = useDispatch<AppDispatch>();
 
-  const tasks = useAppSelector((state) => state.taskReducer);
+  const [tasks, setTasks] = useState<Task[]>([]);
 
   useEffect(() => {
-    console.log('RODOU USEEFFECT')
-    dispatch(start());
-  }, [dispatch]);
+    axios.get('http://localhost:8080/tasks')
+      .then(response => setTasks(response.data))
+      .catch(error => console.error('Erro ao obter tarefas:', error));
+  }, []);
 
   const handleComplete = (task: Partial<Task>) => {
     const newTask = {
@@ -72,16 +74,6 @@ export default function TasksTable() {
                   className="bg-primary-400 text-black px-4 py-2 rounded"
                 >
                   Editar
-                </button>
-              </Link>
-              </td>
-              <td>
-              <Link href={`http://localhost:8080/tasks/${task.id}`}>
-                <button
-                  type="button"
-                  className="bg-primary-400 text-black px-4 py-2 rounded"
-                >
-                  Imagem
                 </button>
               </Link>
               </td>
