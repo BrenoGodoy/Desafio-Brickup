@@ -11,15 +11,13 @@ import axios from "axios";
 export default function TasksTable() {
   const dispatch = useDispatch<AppDispatch>();
 
-  const [tasks, setTasks] = useState<Task[]>([]);
+  const tasks = useAppSelector((state) => state.taskReducer);
 
   useEffect(() => {
-    axios.get('http://localhost:8080/tasks')
-      .then(response => setTasks(response.data))
-      .catch(error => console.error('Erro ao obter tarefas:', error));
-  }, []);
+    dispatch(start())
+  }, [dispatch]);
 
-  const handleComplete = (task: Partial<Task>) => {
+  const handleComplete = async (task: Partial<Task>) => {
     const newTask = {
       id: task.id,
       description: task.description,
@@ -76,6 +74,16 @@ export default function TasksTable() {
                   Editar
                 </button>
               </Link>
+              </td>
+              <td>
+                <Link href={`http://localhost:8080/tasks/${task.id}`}>
+                  <button
+                    type="button"
+                    className="bg-primary-400 text-black px-4 py-2 rounded"
+                  >
+                    Imagem
+                  </button>
+                </Link>
               </td>
             </tr>
           ))}
