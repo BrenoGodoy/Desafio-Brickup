@@ -3,6 +3,10 @@ package com.brenogodoy.desafiobrickupback.controller;
 import java.io.IOException;
 import java.util.List;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -41,10 +45,12 @@ public class TaskController {
   }
 
   @GetMapping("{id}")
-  byte[] downloadImage(@PathVariable Long id) throws IOException {
+  ResponseEntity<byte[]> downloadImage(@PathVariable Long id) throws IOException {
    byte[] image = taskService.downloadImageFromSystem(id);
 
-   return image;
+   return ResponseEntity.status(HttpStatus.OK)
+    .contentType(MediaType.valueOf("image/png"))
+    .body(image);
   }
 
   @PutMapping
