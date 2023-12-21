@@ -61,7 +61,7 @@ Com o banco criado, acesse o seguinte arquivo:
 ```bash
   raíz-do-projeto/target/classes/application.properties
 ```
-Nesse arquivo cole suas credencias:
+Nesse arquivo cole suas credenciais:
 
 ```bash
 spring.datasource.url=jdbc:mysql://localhost:3306/taskList
